@@ -1,0 +1,207 @@
+---
+title: "Project Proposal"
+author: "ALL group member names here"
+subtitle: "Due November 16 at 11:59pm"
+format: pdf
+editor: visual
+---
+
+#### Load Packages
+
+```{r load-packages, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+# Dataset 1 (top choice)
+
+**Data source:** Kaggle Sleep Health and Lifestyle Dataset.
+
+This dataset comes from the public repository Kaggle, titled *“Sleep Health and Lifestyle Dataset”* (2021). The data was originally created as a synthetic but realistic dataset using survey-style responses to represent common sleep patterns, lifestyle habits, and health indicators in adults. The dataset is openly available for educational and research purposes.
+
+<https://www.kaggle.com/datasets/uom190346a/sleep-health-and-lifestyle-dataset>
+
+**Brief description:**
+
+The Sleep Health and Lifestyle dataset contains **400 observations**, each representing an individual adult’s self-reported sleep behavior, lifestyle habits, and basic physiological measurements. Each row corresponds to **one person**, including variables on sleep duration, sleep quality, stress levels, physical activity, demographic information (age, gender, occupation), cardiovascular health indicators (blood pressure and heart rate), daily steps, BMI category, and whether the person has Insomnia, Sleep Apnea, or no sleep disorder. The dataset allows investigation into how lifestyle and health factors relate to sleep quality and sleep disorders.
+
+**Research question 1:**
+
+To what extent is sleep duration related to stress level, and does this relationship vary by occupation?
+
+-   Outcome variable (include the name/description and type of variable):
+
+    Sleep Duration (hours of sleep per night), continuous variable
+
+-   Primary predictor: Stress.Level (scale 1–10)
+
+-   potential Interaction term: Stress.Level x Occupation
+
+    To determine whether higher stress levels are associated with shorter sleep duration, and whether this association varies across different occupations. This analysis will test whether the slope of the stress–sleep relationship differs for people in different professions (e.g., doctors, nurses, teachers, software engineers). Since the question focuses on understanding the *population-level association*, it is an inference question.
+
+**Research question 2:**
+
+Is physical activity level associated with the likelihood of having a sleep disorder, after accounting for age, stress level, and BMI category?
+
+-   Outcome variable (include the name/description and type of variable):
+
+    Sleep.Disorder (binary: Disorder = 1, None = 0)
+
+-   predictors:
+
+    -   Physical.Activity.Level (minutes per day)
+    -   Stress.Level (key lifestyle factor strongly linked to sleep disorders)
+    -   BMI.Category (overweight/obesity commonly linked to Sleep Apnea)
+    -   age
+
+**Load the data and provide a `glimpse()`**:
+
+```{r data-1, warning=FALSE}
+# Load data
+sleep <- read_csv("Sleep_health_and_lifestyle_dataset.csv")
+
+# Glimpse
+glimpse(sleep)
+
+```
+
+Exploratory Plots: Dataset 1: Research Question 1
+
+```{r plots-1}
+ggplot(sleep, aes(x = `Sleep Duration`)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(
+    title = "Distribution of Sleep Duration",
+    x = "Sleep Duration (hours)",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(sleep, aes(x = factor(`Stress Level`), y = `Sleep Duration`)) +
+  geom_violin(fill = "purple", alpha = 0.3) +
+  geom_boxplot(width = 0.1, outlier.color = "red") +
+  labs(
+    title = "Distribution of Sleep Duration by Stress Level",
+    x = "Stress Level",
+    y = "Sleep Duration (hours)"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(sleep, aes(x = `Stress Level`, y = `Sleep Duration`)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "red") +
+  facet_wrap(~ Occupation) +
+  labs(
+    title = "Stress vs Sleep Duration by Occupation",
+    x = "Stress Level",
+    y = "Sleep Duration (hours)"
+  ) +
+  theme_minimal()
+
+```
+
+Dataset 1: Research Question 2
+
+```{r}
+sleep <- sleep %>%
+  mutate(
+    SleepDisorder_Binary = ifelse(`Sleep Disorder` == "None", 0, 1)
+  )
+```
+
+```{r}
+ggplot(sleep, aes(x = `Sleep Disorder`)) +
+  geom_bar(fill = "darkorange") +
+  labs(
+    title = "Distribution of Sleep Disorders",
+    x = "Sleep Disorder Category",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(sleep, aes(x = `Sleep Disorder`, y = `Physical Activity Level`, fill = `Sleep Disorder`)) +
+  geom_violin(alpha = 0.4) +
+  geom_boxplot(width = 0.1) +
+  labs(
+    title = "Distribution of Physical Activity by Sleep Disorder Status",
+    x = "Sleep Disorder",
+    y = "Physical Activity (minutes/day)"
+  ) +
+  theme_minimal() +
+  guides(fill = "none")
+
+```
+
+```{r}
+ggplot(sleep, aes(x = `Sleep Disorder`, y = Age, fill = `Sleep Disorder`)) +
+  geom_boxplot() +
+  labs(
+    title = "Age Distribution by Sleep Disorder Status",
+    x = "Sleep Disorder",
+    y = "Age"
+  ) +
+  theme_minimal() +
+  guides(fill = "none")
+
+```
+
+# Dataset 2
+
+**Data source:**
+
+**Brief description:**
+
+**Research question 1:**
+
+-   Outcome variable (include the name/description and type of variable):
+
+**Research question 2:**
+
+-   Outcome variable (include the name/description and type of variable):
+
+**Load the data and provide a `glimpse()`**:
+
+```{r data-2, warning=FALSE}
+
+```
+
+**Exploratory Plots:**
+
+```{r plots-2}
+
+```
+
+# 
+
+**Exploratory Plots:**
+
+```{}
+```
+
+# 
+
+# Team Charter
+
+#### When will you meet as a team to work on the project components? Will these meetings be held in person or virtually?
+
+Our team plans to meet **both in person and virtually**, depending on everyone’s availability for a given week. We will hold meetings on **weekdays and weekends** whenever all team members are free. Meetings may be scheduled ad hoc or planned in advance as project deadlines approach.
+
+#### What is your group policy on missing team meetings (e.g., how much advance notice should be provided)?
+
+If a team member is unable to attend a scheduled meeting, they are expected to provide **advance notice of at least 12–24 hours**, whenever possible. In cases of emergencies, the team member should notify the group as soon as they are able. Any missed tasks or discussions will be shared with the absent team member so they can stay informed.
+
+#### How will your team communicate (email, Slack, text messages)? What is your policy on appropriate response time (within a certain number of hours? Nights/weekends?)?
+
+Our primary mode of communication will be **Slack**. We will use Slack channels and direct messages for sharing files, coordinating meetings, and discussing project progress. Email may be used for longer updates, if needed.
+
+Team members are expected to respond to Slack messages **within 12 hours on weekdays**. On weekends and evenings, response time may be slower, but team members should still make an effort to respond within **24 hours**, unless they have communicated that they will be unavailable.
+
+#### 
